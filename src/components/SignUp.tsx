@@ -1,17 +1,21 @@
-import React, {useEffect} from "react";
-import {Route, Routes, useNavigate} from "react-router-dom";
-import {getToken} from "../global/Storages";
-import {signUpApiCall} from "../global/ApiCalls";
+import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
 
+
+// i18next.changeLanguage()
 
 export const SignUp = () => {
+    const { t } = useTranslation();
+    const [lang, setLang] = useState('en');
+
     return (
         <div>
-            <input placeholder={'First Name'}/>
+            {t('First Name')}
+            <input placeholder={t('First Name')}/>
             <input placeholder={'Last Name'}/>
             <input placeholder={'Email Address'}/>
             <input placeholder={'Password'}/>
-            <button onClick={() => signUpApiCall({firstName: 'aaa', lastName: 'aaa', email: 'fakhimi.amirmohamad@gmail.com', password: 'aaaaaaaa'})}>Register</button>
+            {/*<button onClick={() => signUpApiCall({firstName: 'aaa', lastName: 'aaa', email: 'fakhimi.amirmohamad@gmail.com', password: 'aaaaaaaa'})}>Register</button>*/}
         </div>
     );
 }

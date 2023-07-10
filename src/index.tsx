@@ -12,6 +12,7 @@ import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import "./global/Translation.ts";
 
 
 const root = ReactDOM.createRoot(
@@ -31,14 +32,14 @@ root.render(
     <React.StrictMode>
         <RecoilRoot>
             <BrowserRouter>
-                <SnackbarProvider action={snackbarKey => (
-                    <IconButton id={'alert-button'} onClick={() => closeSnackbar(snackbarKey)}>
-                        <ArrowCircleDownTwoToneIcon htmlColor={'white'}/>
-                    </IconButton>
-                )} iconVariant={getIconVariant()} maxSnack={5} TransitionProps={{direction: 'up'}}
-                                  style={{fontFamily: 'Public Sans'}}>
-                    <App/>
-                </SnackbarProvider>
+                    <SnackbarProvider action={snackbarKey => (
+                        <IconButton id={'alert-button'} onClick={() => closeSnackbar(snackbarKey)}>
+                            <ArrowCircleDownTwoToneIcon htmlColor={'white'}/>
+                        </IconButton>
+                    )} iconVariant={getIconVariant()} maxSnack={5} TransitionProps={{direction: 'up'}}
+                                      style={{fontFamily: 'Public Sans'}}>
+                        <App/>
+                    </SnackbarProvider>
             </BrowserRouter>
         </RecoilRoot>
     </React.StrictMode>

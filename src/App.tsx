@@ -2,16 +2,15 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {SignUp} from "./components/SignUp";
-import {getToken} from "./global/Storages";
 
 function App() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (getToken() === null)
-            navigate('sign-up')
-        else
-            navigate('home')
+        // if (getToken() === null)
+        //     navigate('sign-up')
+        // else
+        //     navigate('home')
     }, [])
 
     return (

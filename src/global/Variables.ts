@@ -1,1 +1,0 @@
-export const language_codes = ['en', 'fa']

@@ -25,14 +25,14 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    phoneNumber: Yup.string().matches("\\d{9,}","Phone number must be valid").required('Phone number is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
     firstName: '',
     lastName: '',
-    email: '',
+    phoneNumber: '',
     password: '',
   };
 
@@ -51,7 +51,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     try {
-      await register(data.email, data.password, data.firstName, data.lastName);
+      await register(data.phoneNumber, data.password, data.firstName, data.lastName);
     } catch (error) {
       console.error(error);
       reset();
@@ -71,7 +71,7 @@ export default function RegisterForm() {
           <RHFTextField name="lastName" label="Last name" />
         </Stack>
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="phoneNumber" label="Phone number" />
 
         <RHFTextField
           name="password"

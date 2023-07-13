@@ -23,12 +23,12 @@ const handlers = {
     };
   },
   LOGIN: (state, action) => {
-    const { user } = action.payload;
+    const { mobileNumber } = action.payload;
 
     return {
       ...state,
       isAuthenticated: true,
-      user,
+      mobileNumber,
     };
   },
   LOGOUT: (state) => ({
@@ -124,20 +124,20 @@ function AuthProvider({ children }) {
     });
   };
 
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
+  const register = async (phoneNumber, password, firstName, lastName) => {
+    const response = await axios.post('/signUp', {
+      "mobile_number" : phoneNumber,
       password,
-      firstName,
-      lastName,
+      "first_name" : firstName,
+      "last_name" : lastName,
     });
-    const { accessToken, user } = response.data;
+    const mobileNumber = response.data.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
+    // window.localStorage.setItem('accessToken', accessToken);
     dispatch({
       type: 'REGISTER',
       payload: {
-        user,
+        mobileNumber
       },
     });
   };

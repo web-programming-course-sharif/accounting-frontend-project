@@ -87,7 +87,31 @@ function AuthProvider({ children }) {
           setSession(accessToken);
 
           const response = await axios.get('/myAccount');
-          const { user } = response.data;
+
+
+          const user = response.data.data;
+
+          user.email = user.email.String
+
+          // user = {
+          //   "id": "8864c717-587d-472a-929a-8e5f298024da-0",
+          //   "displayName": `${user.FirstName  } ${  user.LastName}`,
+          //   "email": user.Email.String,
+          //   "password": user.Password,
+          //   "firstName": user.FirstName,
+          //   "lastName": user.LastName,
+          //   "photoURL": "https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_default.jpg",
+          //   "phoneNumber": user.PhoneNumber,
+          //   "country": "United States",
+          //   "address": "90210 Broadway Blvd",
+          //   "state": "California",
+          //   "city": "San Francisco",
+          //   "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
+          //   "role": "admin",
+          //   "isPublic": true
+          // }
+
+          console.log(user)
 
           dispatch({
             type: 'INITIALIZE',
@@ -138,7 +162,7 @@ function AuthProvider({ children }) {
 
   const register = async (phoneNumber, password, firstName, lastName) => {
     await axios.post('/signUp', {
-      "mobile_number" : phoneNumber,
+      "phone_number" : phoneNumber,
       password,
       "first_name" : firstName,
       "last_name" : lastName,
@@ -167,7 +191,7 @@ function AuthProvider({ children }) {
 
   const verify = async (mobileNumber, code) => {
     const response = await axios.post('/verify', {
-      "mobile_number": mobileNumber,
+      "phone_number": mobileNumber,
       "code": code,
     });
 
@@ -175,10 +199,10 @@ function AuthProvider({ children }) {
     let { user } = response.data.data;
 
     user = {
-      firstName: user.first_name,
-      lastName: user.last_name,
-      mobileNumber: user.mobile_number,
-      password: user.password,
+      firstName: user.FirstName,
+      lastName: user.LastName,
+      mobileNumber: user.MobileNumber,
+      password: user.Password,
         // registerTime: user.register_time,
     }
 

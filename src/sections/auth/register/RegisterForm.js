@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
+import {useNavigate} from "react-router-dom";
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
@@ -16,6 +17,7 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const { register } = useAuth();
 
   const isMountedRef = useIsMountedRef();
@@ -52,6 +54,13 @@ export default function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       await register(data.phoneNumber, data.password, data.firstName, data.lastName);
+      navigate(
+          "/auth/verify",
+          {
+            state : {
+              "mobileNumber": data.phoneNumber,
+            }
+          });
     } catch (error) {
       console.error(error);
       reset();

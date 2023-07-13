@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { useEffect } from 'react';
 // form
 import { useForm, Controller } from 'react-hook-form';
@@ -10,10 +10,13 @@ import { OutlinedInput, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
+import useAuth from "../../../hooks/useAuth";
 
 // ----------------------------------------------------------------------
 
 export default function VerifyCodeForm() {
+  const {state} = useLocation();
+  const {verify} = useAuth();
   const navigate = useNavigate();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -57,7 +60,8 @@ export default function VerifyCodeForm() {
 
   const onSubmit = async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await verify(state.mobileNumber,Object.values(data).join(''));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
       console.log('code:', Object.values(data).join(''));
 
       enqueueSnackbar('Verify success!');

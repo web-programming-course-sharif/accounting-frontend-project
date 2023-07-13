@@ -41,10 +41,20 @@ const handlers = {
 
     return {
       ...state,
-      isAuthenticated: true,
+      isAuthenticated: false,
       user,
     };
   },
+  VERIFY: (state, action) => {
+    const { user } = action.payload;
+
+    debugger;
+    return {
+      ...state,
+      isAuthenticated: true,
+      user,
+    }
+  }
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -55,6 +65,7 @@ const AuthContext = createContext({
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
   register: () => Promise.resolve(),
+  verify: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -69,12 +80,13 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const initialize = async () => {
       try {
+        debugger;
         const accessToken = window.localStorage.getItem('accessToken');
 
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
+          const response = await axios.get('/myAccount');
           const { user } = response.data;
 
           dispatch({
@@ -147,6 +159,25 @@ function AuthProvider({ children }) {
     dispatch({ type: 'LOGOUT' });
   };
 
+  const verify = async (mobileNumber, code) => {
+    const response = await axios.post('/verify', {
+      "mobile_number": mobileNumber,
+      "code": code,
+    });
+
+    const {token: accessToken, user} = response.data.data;
+    debugger;
+
+    window.localStorage.setItem('accessToken', accessToken);
+
+    dispatch({
+      type: 'VERIFY',
+      payload: {
+        user
+      },
+    });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -155,6 +186,7 @@ function AuthProvider({ children }) {
         login,
         logout,
         register,
+        verify,
       }}
     >
       {children}

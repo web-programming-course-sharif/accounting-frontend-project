@@ -171,7 +171,16 @@ function AuthProvider({ children }) {
       "code": code,
     });
 
-    const {token: accessToken, user} = response.data.data;
+    const {token: accessToken } = response.data.data;
+    let { user } = response.data.data;
+
+    user = {
+      firstName: user.first_name,
+      lastName: user.last_name,
+      mobileNumber: user.mobile_number,
+      password: user.password,
+        // registerTime: user.register_time,
+    }
 
     window.localStorage.setItem('accessToken', accessToken);
 

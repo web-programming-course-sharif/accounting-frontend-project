@@ -137,21 +137,27 @@ function AuthProvider({ children }) {
   };
 
   const register = async (phoneNumber, password, firstName, lastName) => {
-    const response = await axios.post('/signUp', {
+    await axios.post('/signUp', {
       "mobile_number" : phoneNumber,
       password,
       "first_name" : firstName,
       "last_name" : lastName,
     });
-    const mobileNumber = response.data.data;
+    // const response = await axios.post('/signUp', {
+    //   "mobile_number" : phoneNumber,
+    //   password,
+    //   "first_name" : firstName,
+    //   "last_name" : lastName,
+    // });
+    // const mobileNumber = response.data.data;
 
     // window.localStorage.setItem('accessToken', accessToken);
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        mobileNumber
-      },
-    });
+    // dispatch({
+    //   type: 'REGISTER',
+    //   payload: {
+    //     user
+    //   },
+    // });
   };
 
   const logout = async () => {
@@ -166,7 +172,6 @@ function AuthProvider({ children }) {
     });
 
     const {token: accessToken, user} = response.data.data;
-    debugger;
 
     window.localStorage.setItem('accessToken', accessToken);
 

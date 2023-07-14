@@ -26,12 +26,12 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    phoneNumber: Yup.string().matches("\\d{9,}","Phone number must be valid").required('Phone number is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: '',
+    phoneNumber: '',
     password: '',
     remember: true,
   };

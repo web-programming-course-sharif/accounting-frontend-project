@@ -141,12 +141,12 @@ function AuthProvider({children}) {
         initialize();
     }, []);
 
-    const login = async (email, password) => {
-        const response = await axios.post('/api/account/login', {
-            email,
+    const login = async (phoneNumber, password) => {
+        const response = await axios.post('/login', {
+            phoneNumber,
             password,
         });
-        const {accessToken, user} = response.data;
+        const {token: accessToken, user} = response.data.data;
 
         setSession(accessToken);
         dispatch({

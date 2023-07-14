@@ -143,7 +143,7 @@ function AuthProvider({children}) {
 
     const login = async (phoneNumber, password) => {
         const response = await axios.post('/login', {
-            phoneNumber,
+            "phone_number": phoneNumber,
             password,
         });
         const {token: accessToken, user} = response.data.data;

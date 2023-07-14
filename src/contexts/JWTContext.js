@@ -23,12 +23,12 @@ const handlers = {
         };
     },
     LOGIN: (state, action) => {
-        const {mobileNumber} = action.payload;
+        const {phoneNumber} = action.payload;
 
         return {
             ...state,
             isAuthenticated: true,
-            mobileNumber,
+            phoneNumber,
         };
     },
     LOGOUT: (state) => ({
@@ -109,8 +109,6 @@ function AuthProvider({children}) {
                     //   "isPublic": true
                     // }
 
-                    console.log(user)
-
                     dispatch({
                         type: 'INITIALIZE',
                         payload: {
@@ -165,13 +163,7 @@ function AuthProvider({children}) {
             "first_name": firstName,
             "last_name": lastName,
         });
-        // const response = await axios.post('/signUp', {
-        //   "mobile_number" : phoneNumber,
-        //   password,
-        //   "first_name" : firstName,
-        //   "last_name" : lastName,
-        // });
-        // const mobileNumber = response.data.data;
+        // const phoneNumber = response.data.data;
 
         // window.localStorage.setItem('accessToken', accessToken);
         // dispatch({
@@ -187,22 +179,17 @@ function AuthProvider({children}) {
         dispatch({type: 'LOGOUT'});
     };
 
-    const verify = async (mobileNumber, code) => {
+    const verify = async (phoneNumber, code) => {
         const response = await axios.post('/verify', {
-            "phone_number": mobileNumber,
+            "phone_number": phoneNumber,
             "code": code,
         });
 
         const {token: accessToken} = response.data.data;
-        let {user} = response.data.data;
+        const user = response.data.data;
 
-        user = {
-            firstName: user.FirstName,
-            lastName: user.LastName,
-            mobileNumber: user.MobileNumber,
-            password: user.Password,
-            // registerTime: user.register_time,
-        }
+        // user.email = user.email.String
+        user.displayName = user.firstName
 
         window.localStorage.setItem('accessToken', accessToken);
 

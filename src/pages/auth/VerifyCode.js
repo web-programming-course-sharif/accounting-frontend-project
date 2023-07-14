@@ -46,12 +46,12 @@ export default function VerifyCode() {
             <Typography variant="h3" paragraph>
               Please check your phone!
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: 'text.secondary' }} align="justify">
               We have sent a 6-digit confirmation code to {state.phoneNumber}, please enter the code in below box to verify
               your phone number.
             </Typography>
 
-            <Box sx={{ mt: 5, mb: 3 }}>
+            <Box sx={{ mt: 2, mb: 3 }}>
               <VerifyCodeForm />
             </Box>
 

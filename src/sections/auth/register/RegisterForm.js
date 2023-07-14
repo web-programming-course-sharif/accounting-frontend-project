@@ -45,7 +45,6 @@ export default function RegisterForm() {
 
   const {
     reset,
-
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -58,12 +57,12 @@ export default function RegisterForm() {
           "/auth/verify",
           {
             state : {
-              "mobileNumber": data.phoneNumber,
+              "phoneNumber": data.phoneNumber,
             }
           });
     } catch (error) {
       console.error(error);
-      reset();
+      // reset();
       if (isMountedRef.current) {
         setError('afterSubmit', error);
       }

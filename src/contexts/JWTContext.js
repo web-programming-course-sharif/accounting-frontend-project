@@ -23,12 +23,12 @@ const handlers = {
         };
     },
     LOGIN: (state, action) => {
-        const {phoneNumber} = action.payload;
+        const {user} = action.payload;
 
         return {
             ...state,
             isAuthenticated: true,
-            phoneNumber,
+            user,
         };
     },
     LOGOUT: (state) => ({
@@ -37,12 +37,12 @@ const handlers = {
         user: null,
     }),
     REGISTER: (state, action) => {
-        const {user} = action.payload;
+        const {phoneNumber} = action.payload;
 
         return {
             ...state,
             isAuthenticated: false,
-            user,
+            phoneNumber,
         };
     },
     VERIFY: (state, action) => {
@@ -126,7 +126,8 @@ function AuthProvider({children}) {
                     });
                 }
             } catch (err) {
-                console.error(err);
+                // console.error(err);
+                console.info('User is not authenticated')
                 dispatch({
                     type: 'INITIALIZE',
                     payload: {
@@ -157,21 +158,21 @@ function AuthProvider({children}) {
     };
 
     const register = async (phoneNumber, password, firstName, lastName) => {
-        await axios.post('/signUp', {
+        const response = await axios.post('/signUp', {
             "phone_number": phoneNumber,
             password,
             "first_name": firstName,
             "last_name": lastName,
         });
-        // const phoneNumber = response.data.data;
+        const getPhoneNumber = response.data.data;
 
         // window.localStorage.setItem('accessToken', accessToken);
-        // dispatch({
-        //   type: 'REGISTER',
-        //   payload: {
-        //     user
-        //   },
-        // });
+        dispatch({
+          type: 'REGISTER',
+          payload: {
+            phoneNumber: getPhoneNumber,
+          },
+        });
     };
 
     const logout = async () => {

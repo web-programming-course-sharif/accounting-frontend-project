@@ -60,7 +60,7 @@ export default function VerifyCodeForm() {
 
   const onSubmit = async (data) => {
     try {
-      await verify(state.mobileNumber, Object.values(data).join(''));
+      await verify(state.phoneNumber, Object.values(data).join(''));
       // await new Promise((resolve) => setTimeout(resolve, 500));
       // console.log('code:', Object.values(data).join(''));
 

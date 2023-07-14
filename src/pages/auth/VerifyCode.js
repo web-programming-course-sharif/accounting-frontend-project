@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, useLocation} from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Button, Link, Container, Typography } from '@mui/material';
@@ -24,6 +24,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function VerifyCode() {
+  const {state} = useLocation();
+
   return (
     <Page title="Verify" sx={{ height: 1 }}>
       <RootStyle>
@@ -42,11 +44,11 @@ export default function VerifyCode() {
             </Button>
 
             <Typography variant="h3" paragraph>
-              Please check your email!
+              Please check your phone!
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-              We have emailed a 6-digit confirmation code to acb@domain, please enter the code in below box to verify
-              your email.
+              We have sent a 6-digit confirmation code to {state.phoneNumber}, please enter the code in below box to verify
+              your phone number.
             </Typography>
 
             <Box sx={{ mt: 5, mb: 3 }}>

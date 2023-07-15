@@ -53,6 +53,14 @@ const handlers = {
             isAuthenticated: true,
             user,
         }
+    },
+    RESET_PASSWORD: (state, action) => {
+        const {phoneNumber} = action.payload;
+
+        return {
+            ...state,
+            phoneNumber,
+        }
     }
 };
 
@@ -209,8 +217,17 @@ function AuthProvider({children}) {
     };
 
     const resetPassword = async (phoneNumber) => {
-        await axios.post('/forgot', {
+        console.log(phoneNumber)
+        const response = await axios.post('/forgot', {
             "phone_number": phoneNumber,
+        });
+        const getPhoneNumber = response.data.data;
+
+        dispatch({
+          type: 'RESET_PASSWORD',
+          payload: {
+            phoneNumber: getPhoneNumber,
+          },
         });
     };
 
@@ -224,6 +241,7 @@ function AuthProvider({children}) {
                 register,
                 verify,
                 resendCode,
+                resetPassword,
             }}
         >
             {children}

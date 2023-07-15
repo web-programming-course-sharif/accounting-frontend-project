@@ -43,8 +43,7 @@ export default function ResetPassword() {
                   Forgot your password?
                 </Typography>
                 <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-                  Please enter the phone number associated with your account and We will sent you a link to reset your
-                  password.
+                  Please enter the phone number associated with your account and we will sent you a new password.
                 </Typography>
 
                 <ResetPasswordForm onSent={() => setSent(true)} onGetPhoneNumber={(value) => setPhoneNumber(value)} />
@@ -61,7 +60,7 @@ export default function ResetPassword() {
                   Request sent successfully
                 </Typography>
                 <Typography>
-                  We have sent a new code to &nbsp;
+                  We have sent a new password to &nbsp;
                   <strong>{phoneNumber}</strong>
                   <br />
                   Please check your phone.

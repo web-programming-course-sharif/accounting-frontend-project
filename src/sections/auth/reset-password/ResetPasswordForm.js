@@ -10,6 +10,7 @@ import {LoadingButton} from '@mui/lab';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 // components
 import {FormProvider, RHFTextField} from '../../../components/hook-form';
+import useAuth from "../../../hooks/useAuth";
 
 // ----------------------------------------------------------------------
 
@@ -20,14 +21,15 @@ ResetPasswordForm.propTypes = {
 
 export default function ResetPasswordForm({onSent, onGetPhoneNumber}) {
     const isMountedRef = useIsMountedRef();
+    const {resetPassword} = useAuth();
 
     const ResetPasswordSchema = Yup.object().shape({
-        email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+        phoneNumber: Yup.string().matches("\\d{9,}","Phone number must be valid").required('Phone number is required')
     });
 
     const methods = useForm({
         resolver: yupResolver(ResetPasswordSchema),
-        defaultValues: {email: 'demo@minimals.cc'},
+        defaultValues: { phoneNumber: '' },
     });
 
     const {
@@ -38,7 +40,7 @@ export default function ResetPasswordForm({onSent, onGetPhoneNumber}) {
 
     const onSubmit = async (data) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await resetPassword(data.phoneNumber);
             if (isMountedRef.current) {
                 onSent();
                 onGetPhoneNumber(data.phoneNumber);

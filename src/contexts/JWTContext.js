@@ -1,5 +1,6 @@
 import {createContext, useEffect, useReducer} from 'react';
 import PropTypes from 'prop-types';
+import isString from "lodash/isString";
 // utils
 import axios from '../utils/axios';
 import {isValidToken, setSession} from '../utils/jwt';
@@ -248,16 +249,20 @@ function AuthProvider({children}) {
 
     const changeProfile = async (firstName, lastName, email, country, state, city, zipCode, address, about, photo) => {
         const formData = new FormData();
-        formData.append('first_name', firstName);
-        formData.append('last_name', lastName);
-        formData.append('email', email);
-        formData.append('country', country);
-        formData.append('state', state);
-        formData.append('city', city);
-		formData.append('zip_code', zipCode);
-        formData.append('address', address);
-        formData.append('about', about);
-        formData.append('photo', photo, photo.name);
+        formData.set('first_name', firstName);
+        formData.set('last_name', lastName);
+        formData.set('email', email);
+        formData.set('country', country);
+        formData.set('state', state);
+        formData.set('city', city);
+		formData.set('zip_code', zipCode);
+        formData.set('address', address);
+        formData.set('about', about);
+
+        if (isString(photo))
+            formData.set('photo', photo);
+        else
+            formData.set('photo', photo, photo.name);
 
         const response = await axios.post('/changeProfile', formData, {
             headers: {

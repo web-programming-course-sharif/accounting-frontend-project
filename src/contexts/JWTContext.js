@@ -247,20 +247,26 @@ function AuthProvider({children}) {
     };
 
     const changeProfile = async (firstName, lastName, email, country, state, city, zipCode, address, about, photo) => {
-        const response = await axios.post('/changeProfile', {
-            "first_name": firstName,
-            "last_name": lastName,
-            "email": email,
-            "country": country,
-            "state": state,
-            "city": city,
-            "zip_code": zipCode,
-            "address": address,
-            "about": about,
-            "photo": photo,
+        const formData = new FormData();
+        formData.append('first_name', firstName);
+        formData.append('last_name', lastName);
+        formData.append('email', email);
+        formData.append('country', country);
+        formData.append('state', state);
+        formData.append('city', city);
+		formData.append('zip_code', zipCode);
+        formData.append('address', address);
+        formData.append('about', about);
+        formData.append('photo', photo, photo.name);
+
+        const response = await axios.post('/changeProfile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         });
 
         const user = response.data.data;
+        console.log(user)
         user.displayName = `${user.firstName} ${user.lastName}`;
 
         dispatch({

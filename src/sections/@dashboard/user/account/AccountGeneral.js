@@ -83,10 +83,14 @@ export default function AccountGeneral() {
             enqueueSnackbar('Update success!');
         } catch (error) {
             console.error(error)
-            setError('afterSubmit', {
-                type: 'manual',
-                message: 'Something wrong happened'
-            })
+            if (!error.message) {
+                setError('afterSubmit', {
+                    type: 'manual',
+                    message: 'Something wrong happened',
+                });
+            } else {
+                setError('afterSubmit', error);
+            }
         }
     };
 
@@ -127,7 +131,7 @@ export default function AccountGeneral() {
                                         color: 'text.secondary',
                                     }}
                                 >
-                                    Allowed *.jpeg, *.jpg, *.png, *.gif
+                                    Allowed all images including gif
                                     <br/> max size of {fData(3145728)}
                                 </Typography>
                             }

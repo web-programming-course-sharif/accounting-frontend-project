@@ -61,7 +61,15 @@ const handlers = {
             ...state,
             phoneNumber,
         }
-    }
+    },
+    CHANGE_IS_PUBLIC: (state, action) => {
+        const {user} = action.payload;
+
+        return {
+            ...state,
+            user,
+        }
+    },
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -95,7 +103,7 @@ function AuthProvider({children}) {
 
                     const response = await axios.get('/myAccount');
                     const user = response.data.data;
-                    user.displayName = `${user.firstName  } ${  user.lastName}`;
+                    user.displayName = `${user.firstName} ${user.lastName}`;
 
                     dispatch({
                         type: 'INITIALIZE',
@@ -135,7 +143,7 @@ function AuthProvider({children}) {
             password,
         });
         const {token: accessToken, user} = response.data.data;
-        user.displayName = `${user.firstName  } ${  user.lastName}`;
+        user.displayName = `${user.firstName} ${user.lastName}`;
 
         setSession(accessToken);
         dispatch({
@@ -157,10 +165,10 @@ function AuthProvider({children}) {
 
         // window.localStorage.setItem('accessToken', accessToken);
         dispatch({
-          type: 'REGISTER',
-          payload: {
-            phoneNumber: getPhoneNumber,
-          },
+            type: 'REGISTER',
+            payload: {
+                phoneNumber: getPhoneNumber,
+            },
         });
     };
 
@@ -175,7 +183,7 @@ function AuthProvider({children}) {
             "code": code,
         });
         const {token: accessToken, user} = response.data.data;
-        user.displayName = `${user.firstName  } ${  user.lastName}`;
+        user.displayName = `${user.firstName} ${user.lastName}`;
 
         window.localStorage.setItem('accessToken', accessToken);
 
@@ -200,12 +208,30 @@ function AuthProvider({children}) {
         const getPhoneNumber = response.data.data;
 
         dispatch({
-          type: 'RESET_PASSWORD',
-          payload: {
-            phoneNumber: getPhoneNumber,
-          },
+            type: 'RESET_PASSWORD',
+            payload: {
+                phoneNumber: getPhoneNumber,
+            },
         });
     };
+
+    const changeIsPublic = async (isPublic) => {
+        const response = await axios.post('/editProfileStatus', {
+            "is_public": isPublic
+        })
+
+        const user = response.data.data;
+        console.log(user)
+        user.displayName = `${user.firstName} ${user.lastName}`;
+
+        dispatch({
+            type: 'CHANGE_IS_PUBLIC',
+            payload: {
+                user
+            },
+        });
+    };
+
 
     return (
         <AuthContext.Provider
@@ -218,6 +244,7 @@ function AuthProvider({children}) {
                 verify,
                 resendCode,
                 resetPassword,
+                changeIsPublic,
             }}
         >
             {children}

@@ -105,8 +105,9 @@ function AuthProvider({children}) {
         const initialize = async () => {
             try {
                 const accessToken = window.localStorage.getItem('accessToken');
+                const remeberMe = window.localStorage.getItem('remember') === 'true';
 
-                if (accessToken && isValidToken(accessToken)) {
+                if (accessToken && isValidToken(accessToken) && remeberMe) {
                     setSession(accessToken);
 
                     const response = await axios.get('/myAccount');
@@ -130,7 +131,6 @@ function AuthProvider({children}) {
                     });
                 }
             } catch (err) {
-                // console.error(err);
                 console.info('User is not authenticated')
                 dispatch({
                     type: 'INITIALIZE',
@@ -182,6 +182,7 @@ function AuthProvider({children}) {
 
     const logout = async () => {
         setSession(null);
+        localStorage.removeItem('remember');
         dispatch({type: 'LOGOUT'});
     };
 

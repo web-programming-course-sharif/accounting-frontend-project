@@ -42,18 +42,25 @@ export default function LoginForm() {
   });
 
   const {
-    reset,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
+    const rememberMe = document.querySelector('input[name=remember]');
+    const rememberMeValue = rememberMe?.value === 'true'
+
+    if (rememberMeValue === true) {
+      localStorage.setItem('remember', true);
+    } else {
+      localStorage.setItem('remember', false);
+    }
+
     try {
       await login(data.phoneNumber, data.password);
     } catch (error) {
       console.error(error);
-      // reset();
       if (isMountedRef.current) {
         setError('afterSubmit', error);
       }

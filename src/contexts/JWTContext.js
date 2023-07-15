@@ -65,6 +65,7 @@ const AuthContext = createContext({
     logout: () => Promise.resolve(),
     register: () => Promise.resolve(),
     verify: () => Promise.resolve(),
+    resendCode: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -186,8 +187,7 @@ function AuthProvider({children}) {
             "code": code,
         });
 
-        const {token: accessToken} = response.data.data;
-        const user = response.data.data;
+        const {token: accessToken, user} = response.data.data;
 
         // user.email = user.email.String
         user.displayName = user.firstName
@@ -202,6 +202,18 @@ function AuthProvider({children}) {
         });
     }
 
+    const resendCode = async (phoneNumber) => {
+        await axios.post('/resendCode', {
+            "phone_number": phoneNumber,
+        });
+    };
+
+    const resetPassword = async (phoneNumber) => {
+        await axios.post('/forgot', {
+            "phone_number": phoneNumber,
+        });
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -211,6 +223,7 @@ function AuthProvider({children}) {
                 logout,
                 register,
                 verify,
+                resendCode,
             }}
         >
             {children}

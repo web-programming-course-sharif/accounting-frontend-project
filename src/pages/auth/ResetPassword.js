@@ -27,7 +27,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ResetPassword() {
-  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [sent, setSent] = useState(false);
 
   return (
@@ -43,11 +43,11 @@ export default function ResetPassword() {
                   Forgot your password?
                 </Typography>
                 <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-                  Please enter the email address associated with your account and We will email you a link to reset your
+                  Please enter the phone number associated with your account and We will sent you a link to reset your
                   password.
                 </Typography>
 
-                <ResetPasswordForm onSent={() => setSent(true)} onGetEmail={(value) => setEmail(value)} />
+                <ResetPasswordForm onSent={() => setSent(true)} onGetPhoneNumber={(value) => setPhoneNumber(value)} />
 
                 <Button fullWidth size="large" component={RouterLink} to={PATH_AUTH.login} sx={{ mt: 1 }}>
                   Back
@@ -61,10 +61,10 @@ export default function ResetPassword() {
                   Request sent successfully
                 </Typography>
                 <Typography>
-                  We have sent a confirmation email to &nbsp;
-                  <strong>{email}</strong>
+                  We have sent a new code to &nbsp;
+                  <strong>{phoneNumber}</strong>
                   <br />
-                  Please check your email.
+                  Please check your phone.
                 </Typography>
 
                 <Button size="large" variant="contained" component={RouterLink} to={PATH_AUTH.login} sx={{ mt: 5 }}>

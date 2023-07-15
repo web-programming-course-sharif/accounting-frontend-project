@@ -88,9 +88,9 @@ function AuthProvider({children}) {
         const initialize = async () => {
             try {
                 const accessToken = window.localStorage.getItem('accessToken');
-                const remeberMe = window.localStorage.getItem('remember') === 'true';
+                const rememberMe = window.localStorage.getItem('remember') === 'true';
 
-                if (accessToken && isValidToken(accessToken) && remeberMe) {
+                if (accessToken && isValidToken(accessToken) && rememberMe) {
                     setSession(accessToken);
 
                     const response = await axios.get('/myAccount');
@@ -242,6 +242,7 @@ function AuthProvider({children}) {
     };
 
     const changeProfile = async (firstName, lastName, email, country, state, city, zipCode, address, about, photo) => {
+        console.log(photo)
         const response = await axios.post('/changeProfile', {
             "first_name": firstName,
             "last_name": lastName,

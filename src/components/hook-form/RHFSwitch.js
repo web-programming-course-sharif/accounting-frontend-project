@@ -8,9 +8,9 @@ import {FormControlLabel, Switch} from '@mui/material';
 
 RHFSwitch.propTypes = {
     name: PropTypes.string,
+    onChange: PropTypes.func
 };
 
-// eslint-disable-next-line react/prop-types
 export default function RHFSwitch({name, onChange, ...other}) {
     const {control} = useFormContext();
 

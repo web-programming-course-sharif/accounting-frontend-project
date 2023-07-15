@@ -42,7 +42,7 @@ export default function AccountGeneral() {
         city: user?.city || '',
         zipCode: user?.zipCode || '',
         about: user?.about || '',
-        isPublic: user?.isPublic || '',
+        isPublic: user?.isPublic || false,
     };
 
     const methods = useForm({
@@ -59,8 +59,8 @@ export default function AccountGeneral() {
 
     const onSubmit = async (data) => {
         try {
-            await changeProfile(data.firstName, data.lastName, data.email, data.phoneNumber, data.country, data.state,
-                data.city, data.zipCode, data.address, data.about)
+            await changeProfile(data.firstName, data.lastName, data.email, data.country, data.state,
+                data.city, data.zipCode, data.address, data.about, data.photoURL)
             enqueueSnackbar('Update success!');
         } catch (error) {
             console.error(error)

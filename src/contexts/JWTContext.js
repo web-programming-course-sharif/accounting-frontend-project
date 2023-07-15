@@ -94,29 +94,8 @@ function AuthProvider({children}) {
                     setSession(accessToken);
 
                     const response = await axios.get('/myAccount');
-
-
                     const user = response.data.data;
-
-                    // user.email = user.email.String
-                    user.displayName = user.firstName
-                    // user = {
-                    //   "id": "8864c717-587d-472a-929a-8e5f298024da-0",
-                    //   "displayName": `${user.FirstName  } ${  user.LastName}`,
-                    //   "email": user.Email.String,
-                    //   "password": user.Password,
-                    //   "firstName": user.FirstName,
-                    //   "lastName": user.LastName,
-                    //   "photoURL": "https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_default.jpg",
-                    //   "phoneNumber": user.PhoneNumber,
-                    //   "country": "United States",
-                    //   "address": "90210 Broadway Blvd",
-                    //   "state": "California",
-                    //   "city": "San Francisco",
-                    //   "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
-                    //   "role": "admin",
-                    //   "isPublic": true
-                    // }
+                    user.displayName = `${user.firstName  } ${  user.lastName}`;
 
                     dispatch({
                         type: 'INITIALIZE',
@@ -156,6 +135,7 @@ function AuthProvider({children}) {
             password,
         });
         const {token: accessToken, user} = response.data.data;
+        user.displayName = `${user.firstName  } ${  user.lastName}`;
 
         setSession(accessToken);
         dispatch({
@@ -194,11 +174,8 @@ function AuthProvider({children}) {
             "phone_number": phoneNumber,
             "code": code,
         });
-
         const {token: accessToken, user} = response.data.data;
-
-        // user.email = user.email.String
-        user.displayName = user.firstName
+        user.displayName = `${user.firstName  } ${  user.lastName}`;
 
         window.localStorage.setItem('accessToken', accessToken);
 
@@ -217,7 +194,6 @@ function AuthProvider({children}) {
     };
 
     const resetPassword = async (phoneNumber) => {
-        console.log(phoneNumber)
         const response = await axios.post('/forgot', {
             "phone_number": phoneNumber,
         });

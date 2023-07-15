@@ -44,7 +44,6 @@ export default function RegisterForm() {
   });
 
   const {
-    reset,
     setError,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -62,7 +61,6 @@ export default function RegisterForm() {
           });
     } catch (error) {
       console.error(error);
-      // reset();
       if (isMountedRef.current) {
         setError('afterSubmit', error);
       }

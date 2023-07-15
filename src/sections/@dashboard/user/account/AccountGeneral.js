@@ -25,11 +25,14 @@ export default function AccountGeneral() {
     const {user} = useAuth();
 
     const UpdateUserSchema = Yup.object().shape({
-        displayName: Yup.string().required('Name is required'),
+        firstName: Yup.string().required('First name required'),
+        lastName: Yup.string().required('Last name required'),
+        phoneNumber: Yup.string().matches("\\d{9,}", "Phone number must be valid").required('Phone number is required'),
     });
 
     const defaultValues = {
-        displayName: user?.displayName || '',
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
         email: user?.email || '',
         photoURL: user?.photoURL || '',
         phoneNumber: user?.phoneNumber || '',
@@ -122,7 +125,8 @@ export default function AccountGeneral() {
                                            setValue('isPublic', user.isPublic)
                                        }
                                    }}/>
-                        {!!errors.afterSubmit && <Alert sx={{mt: 2}} severity="error">{errors.afterSubmit.message}</Alert>}
+                        {!!errors.afterSubmit &&
+                            <Alert sx={{mt: 2}} severity="error">{errors.afterSubmit.message}</Alert>}
                     </Card>
                 </Grid>
 
@@ -136,11 +140,11 @@ export default function AccountGeneral() {
                                 gridTemplateColumns: {xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)'},
                             }}
                         >
-                            <RHFTextField name="displayName" label="Name"/>
+                            <RHFTextField name="firstName" label="First name"/>
+                            <RHFTextField name="lastName" label="Last name"/>
                             <RHFTextField name="email" label="Email Address"/>
 
                             <RHFTextField name="phoneNumber" label="Phone Number"/>
-                            <RHFTextField name="address" label="Address"/>
 
                             <RHFSelect name="country" label="Country" placeholder="Country">
                                 <option value=""/>
@@ -152,13 +156,14 @@ export default function AccountGeneral() {
                             </RHFSelect>
 
                             <RHFTextField name="state" label="State/Region"/>
-
                             <RHFTextField name="city" label="City"/>
-                            <RHFTextField name="zipCode" label="Zip/Code"/>
+
+                            <RHFTextField name="zipCode" label="Zip code"/>
                         </Box>
 
                         <Stack spacing={3} alignItems="flex-end" sx={{mt: 3}}>
-                            <RHFTextField name="about" multiline rows={4} label="About"/>
+                            <RHFTextField name="address" label="Address" multiline rows={2}/>
+                            <RHFTextField name="about" label="About" multiline rows={4}/>
 
                             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                                 Save Changes

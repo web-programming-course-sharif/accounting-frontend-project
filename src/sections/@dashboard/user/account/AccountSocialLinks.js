@@ -43,14 +43,14 @@ AccountSocialLinks.propTypes = {
 };
 
 export default function AccountSocialLinks({myProfile}) {
-    const {changeSocialLinks} = useAuth();
+    const {changeSocialLinks, user} = useAuth();
     const {enqueueSnackbar} = useSnackbar();
 
     const defaultValues = {
-        facebookLink: '',
-        instagramLink: '',
-        linkedinLink: '',
-        twitterLink: '',
+        facebookLink: user?.facebookLink || '',
+        instagramLink: user?.instagramLink || '',
+        linkedinLink: user?.linkedinLink || '',
+        twitterLink: user?.twitterLink || '',
     };
 
     const methods = useForm({
@@ -67,6 +67,7 @@ export default function AccountSocialLinks({myProfile}) {
         try {
             await changeSocialLinks(data.facebookLink, data.instagramLink, data.linkedinLink, data.twitterLink)
             enqueueSnackbar('Update success!');
+            console.log(3, user)
         } catch (error) {
             console.error(error)
             setError('afterSubmit', {

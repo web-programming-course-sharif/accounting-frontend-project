@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import {useTranslation} from "react-i18next";
 // @mui
 import { styled } from '@mui/material/styles';
 import { Typography, Button, Card, CardContent } from '@mui/material';
@@ -27,6 +28,8 @@ AppWelcome.propTypes = {
 };
 
 export default function AppWelcome({ displayName }) {
+    const {t} = useTranslation()
+
   return (
     <RootStyle>
       <CardContent
@@ -37,11 +40,11 @@ export default function AppWelcome({ displayName }) {
         }}
       >
         <Typography gutterBottom variant="h4">
-          خوش بازگشتی, {!displayName ? '...' : displayName}!
+            {t('Welcome back')}, {!displayName ? '...' : displayName}!
         </Typography>
 
         <Typography variant="body2" sx={{ pb: { xs: 3, xl: 4 }, maxWidth: 480, mx: 'auto' }}>
-          امیدوارم یک تجربه بسیار شیرین برای شما رقم بزنیم
+            {t('We hope to make a very sweet experience for you.')}
         </Typography>
 
         <Button variant="contained" to="#" component={RouterLink}>

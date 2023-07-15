@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 // @mui
 import { styled } from '@mui/material/styles';
@@ -27,8 +26,14 @@ AppWelcome.propTypes = {
   displayName: PropTypes.string,
 };
 
-export default function AppWelcome({ displayName }) {
+// eslint-disable-next-line react/prop-types
+export default function AppWelcome({ displayName, isRemove, setTrueIsRemove }) {
     const {t} = useTranslation()
+
+    if (isRemove || localStorage.getItem('appWelcomeRemove') === 'true') {
+        localStorage.setItem('appWelcomeRemove', true)
+        return <div/>
+    }
 
   return (
     <RootStyle>
@@ -47,7 +52,7 @@ export default function AppWelcome({ displayName }) {
             {t('We hope to make a very sweet experience for you.')}
         </Typography>
 
-        <Button variant="contained" to="#" component={RouterLink}>
+        <Button variant="contained" onClick={setTrueIsRemove}>
           Go Now
         </Button>
       </CardContent>

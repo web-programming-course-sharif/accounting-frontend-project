@@ -112,7 +112,7 @@ export default function AccountGeneral() {
                                        setValue('isPublic', newIsPublic);
                                        try {
                                            await changeIsPublic(newIsPublic);
-                                           enqueueSnackbar('Update success!');
+                                           enqueueSnackbar(`Public profile is ${newIsPublic ? 'ON' : 'OFF'}`)
                                        } catch (err) {
                                            console.error(err);
                                            setError('afterSubmit', {

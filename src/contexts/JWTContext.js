@@ -70,6 +70,14 @@ const handlers = {
             user,
         }
     },
+    CHANGE_PASSWORD: (state, action) => {
+        const {user} = action.payload;
+
+        return {
+            ...state,
+            user,
+        }
+    }
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -221,7 +229,6 @@ function AuthProvider({children}) {
         })
 
         const user = response.data.data;
-        console.log(user)
         user.displayName = `${user.firstName} ${user.lastName}`;
 
         dispatch({
@@ -229,6 +236,24 @@ function AuthProvider({children}) {
             payload: {
                 user
             },
+        });
+    };
+
+    const changePassword = async (oldPassword, newPassword, confirmNewPassword) => {
+        const response = await axios.post('/changePassword', {
+            "old_password": oldPassword,
+            "new_password": newPassword,
+            "confirm_new_password": confirmNewPassword,
+        });
+
+        const user = response.data.data;
+        user.displayName = `${user.firstName} ${user.lastName}`;
+
+        dispatch({
+            type: 'CHANGE_PASSWORD',
+            payload: {
+                user
+            }
         });
     };
 
@@ -245,6 +270,7 @@ function AuthProvider({children}) {
                 resendCode,
                 resetPassword,
                 changeIsPublic,
+                changePassword,
             }}
         >
             {children}

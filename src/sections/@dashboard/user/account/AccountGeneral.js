@@ -19,7 +19,7 @@ import {FormProvider, RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar} from 
 // ----------------------------------------------------------------------
 
 export default function AccountGeneral() {
-    const {changeIsPublic} = useAuth();
+    const {changeIsPublic, changeProfile} = useAuth();
     const {enqueueSnackbar} = useSnackbar();
 
     const {user} = useAuth();
@@ -57,12 +57,17 @@ export default function AccountGeneral() {
         formState: {errors, isSubmitting},
     } = methods;
 
-    const onSubmit = async () => {
+    const onSubmit = async (data) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
+            await changeProfile(data.firstName, data.lastName, data.email, data.phoneNumber, data.country, data.state,
+                data.city, data.zipCode, data.address, data.about)
             enqueueSnackbar('Update success!');
         } catch (error) {
-            console.error(error);
+            console.error(error)
+            setError('afterSubmit', {
+                type: 'manual',
+                message: 'Something wrong happened'
+            })
         }
     };
 
@@ -118,20 +123,22 @@ export default function AccountGeneral() {
                                            enqueueSnackbar(`Public profile is ${newIsPublic ? 'ON' : 'OFF'}`)
                                        } catch (err) {
                                            console.error(err);
-                                           setError('afterSubmit', {
+                                           setError('afterIsPublic', {
                                                type: 'manual',
                                                message: 'Something wrong happened'
                                            })
                                            setValue('isPublic', user.isPublic)
                                        }
                                    }}/>
-                        {!!errors.afterSubmit &&
-                            <Alert sx={{mt: 2}} severity="error">{errors.afterSubmit.message}</Alert>}
+                        {!!errors.afterIsPublic &&
+                            <Alert sx={{mt: 2}} severity="error">{errors.afterIsPublic.message}</Alert>}
                     </Card>
                 </Grid>
 
                 <Grid item xs={12} md={8}>
                     <Card sx={{p: 3}}>
+                        {!!errors.afterSubmit &&
+                            <Alert sx={{mb: 3}} severity="error">{errors.afterSubmit.message}</Alert>}
                         <Box
                             sx={{
                                 display: 'grid',
@@ -142,9 +149,9 @@ export default function AccountGeneral() {
                         >
                             <RHFTextField name="firstName" label="First name"/>
                             <RHFTextField name="lastName" label="Last name"/>
-                            <RHFTextField name="email" label="Email Address"/>
 
-                            <RHFTextField name="phoneNumber" label="Phone Number"/>
+                            <RHFTextField name="phoneNumber" label="Phone Number" disabled/>
+                            <RHFTextField name="email" label="Email Address"/>
 
                             <RHFSelect name="country" label="Country" placeholder="Country">
                                 <option value=""/>

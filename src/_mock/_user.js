@@ -15,10 +15,10 @@ export const _userAbout = {
   company: _mock.company(1),
   school: _mock.company(2),
   role: 'Manager',
-  facebookLink: `https://www.facebook.com/caitlyn.kerluke`,
-  instagramLink: `https://www.instagram.com/caitlyn.kerluke`,
-  linkedinLink: `https://www.linkedin.com/in/caitlyn.kerluke`,
-  twitterLink: `https://www.twitter.com/caitlyn.kerluke`,
+  facebookLink: `https://www.facebook.com/username`,
+  instagramLink: `https://www.instagram.com/username`,
+  linkedinLink: `https://www.linkedin.com/in/username`,
+  twitterLink: `https://www.twitter.com/username`,
 };
 
 export const _userFollowers = [...Array(18)].map((_, index) => ({

@@ -45,15 +45,6 @@ const handlers = {
             phoneNumber,
         };
     },
-    VERIFY: (state, action) => {
-        const {user} = action.payload;
-
-        return {
-            ...state,
-            isAuthenticated: true,
-            user,
-        }
-    },
     RESET_PASSWORD: (state, action) => {
         const {phoneNumber} = action.payload;
 
@@ -62,7 +53,7 @@ const handlers = {
             phoneNumber,
         }
     },
-    CHANGE_IS_PUBLIC: (state, action) => {
+    NEW_USER: (state, action) => {
         const {user} = action.payload;
 
         return {
@@ -70,14 +61,6 @@ const handlers = {
             user,
         }
     },
-    CHANGE_PASSWORD: (state, action) => {
-        const {user} = action.payload;
-
-        return {
-            ...state,
-            user,
-        }
-    }
 };
 
 const reducer = (state, action) => (handlers[action.type] ? handlers[action.type](state, action) : state);
@@ -197,7 +180,7 @@ function AuthProvider({children}) {
         window.localStorage.setItem('accessToken', accessToken);
 
         dispatch({
-            type: 'VERIFY',
+            type: 'LOGIN',
             payload: {
                 user
             },
@@ -233,7 +216,7 @@ function AuthProvider({children}) {
         user.displayName = `${user.firstName} ${user.lastName}`;
 
         dispatch({
-            type: 'CHANGE_IS_PUBLIC',
+            type: 'NEW_USER',
             payload: {
                 user
             },
@@ -251,7 +234,51 @@ function AuthProvider({children}) {
         user.displayName = `${user.firstName} ${user.lastName}`;
 
         dispatch({
-            type: 'CHANGE_PASSWORD',
+            type: 'NEW_USER',
+            payload: {
+                user
+            }
+        });
+    };
+
+    const changeProfile = async (firstName, lastName, email, country, state, city, zipCode, address, about, photo) => {
+        const response = await axios.post('/changeProfile', {
+            "first_name": firstName,
+            "last_name": lastName,
+            "email": email,
+            "country": country,
+            "state": state,
+            "city": city,
+            "zip_code": zipCode,
+            "address": address,
+            "about": about,
+            "photo": photo,
+        });
+
+        const user = response.data.data;
+        user.displayName = `${user.firstName} ${user.lastName}`;
+
+        dispatch({
+            type: 'NEW_USER',
+            payload: {
+                user
+            }
+        });
+    };
+
+    const changeSocialLinks = async (facebookLink, instagramLink, linkedinLink, twitterLink) => {
+        const response = await axios.post('/changeSocialLinks', {
+            "facebook_link": facebookLink,
+            "instagram_link": instagramLink,
+            "linkedin_link": linkedinLink,
+            "twitter_link": twitterLink,
+        });
+
+        const user = response.data.data;
+        user.displayName = `${user.firstName} ${user.lastName}`;
+
+        dispatch({
+            type: 'NEW_USER',
             payload: {
                 user
             }
@@ -272,6 +299,8 @@ function AuthProvider({children}) {
                 resetPassword,
                 changeIsPublic,
                 changePassword,
+                changeProfile,
+                changeSocialLinks,
             }}
         >
             {children}

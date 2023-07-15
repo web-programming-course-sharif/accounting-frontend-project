@@ -62,7 +62,14 @@ export default function RegisterForm() {
     } catch (error) {
       console.error(error);
       if (isMountedRef.current) {
-        setError('afterSubmit', error);
+        if (!error.message) {
+          setError('afterSubmit', {
+            type: 'manual',
+            message: 'Could not connect to server. Please try again later.',
+          });
+        } else {
+          setError('afterSubmit', error);
+        }
       }
     }
   };

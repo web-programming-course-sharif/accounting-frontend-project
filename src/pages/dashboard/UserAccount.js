@@ -1,5 +1,5 @@
 import { capitalCase } from 'change-case';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
 // routes
@@ -27,6 +27,18 @@ export default function UserAccount() {
   const { themeStretch } = useSettings();
 
   const [currentTab, setCurrentTab] = useState('general');
+
+  useEffect(() => {
+    setCurrentTab(localStorage.getItem('accountSettingsTab') || 'general')
+
+    return () => localStorage.removeItem('accountSettingsTab')
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('accountSettingsTab', currentTab)
+  }, [currentTab]);
+
+
 
   const ACCOUNT_TABS = [
     {

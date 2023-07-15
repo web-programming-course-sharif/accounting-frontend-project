@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import PropTypes from 'prop-types';
 import {useSnackbar} from 'notistack';
 // form
@@ -63,11 +64,21 @@ export default function AccountSocialLinks({myProfile}) {
         formState: {errors, isSubmitting},
     } = methods;
 
+    useEffect(() => {
+        if (user) {
+            methods.reset({
+                facebookLink: user?.facebookLink || '',
+                instagramLink: user?.instagramLink || '',
+                linkedinLink: user?.linkedinLink || '',
+                twitterLink: user?.twitterLink || '',
+            })
+        }
+    }, [methods, user])
+
     const onSubmit = async (data) => {
         try {
             await changeSocialLinks(data.facebookLink, data.instagramLink, data.linkedinLink, data.twitterLink)
             enqueueSnackbar('Update success!');
-            console.log(3, user)
         } catch (error) {
             console.error(error)
             setError('afterSubmit', {

@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import {useSnackbar} from 'notistack';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 // form
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -56,6 +56,25 @@ export default function AccountGeneral() {
         handleSubmit,
         formState: {errors, isSubmitting},
     } = methods;
+
+    useEffect(() => {
+        if (user) {
+            methods.reset({
+                firstName: user?.firstName || '',
+                lastName: user?.lastName || '',
+                email: user?.email || '',
+                photoURL: user?.photoURL || '',
+                phoneNumber: user?.phoneNumber || '',
+                country: user?.country || '',
+                address: user?.address || '',
+                state: user?.state || '',
+                city: user?.city || '',
+                zipCode: user?.zipCode || '',
+                about: user?.about || '',
+                isPublic: user?.isPublic || true,
+            })
+        }
+    }, [methods, user])
 
     const onSubmit = async (data) => {
         try {

@@ -55,7 +55,6 @@ const handlers = {
     },
     NEW_USER: (state, action) => {
         const {user} = action.payload;
-        console.log(2, user)
 
         return {
             ...state,
@@ -248,7 +247,6 @@ function AuthProvider({children}) {
     };
 
     const changeProfile = async (firstName, lastName, email, country, state, city, zipCode, address, about, photo) => {
-        // console.log(photo)
         const response = await axios.post('/changeProfile', {
             "first_name": firstName,
             "last_name": lastName,
@@ -283,7 +281,6 @@ function AuthProvider({children}) {
 
         const user = response.data.data;
         user.displayName = `${user.firstName} ${user.lastName}`;
-        console.log(1, user)
 
         dispatch({
             type: 'NEW_USER',

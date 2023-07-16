@@ -255,7 +255,7 @@ function AuthProvider({children}) {
         formData.set('country', country);
         formData.set('state', state);
         formData.set('city', city);
-		formData.set('zip_code', zipCode);
+        formData.set('zip_code', zipCode);
         formData.set('address', address);
         formData.set('about', about);
 

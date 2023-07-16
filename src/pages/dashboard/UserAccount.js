@@ -49,7 +49,7 @@ export default function UserAccount() {
     {
       value: 'billing',
       icon: <Iconify icon={'ic:round-receipt'} width={20} height={20} />,
-      component: <AccountBilling cards={_userPayment} addressBook={_userAddressBook} invoices={_userInvoices} />,
+      component: <AccountBilling addressBook={_userAddressBook} invoices={_userInvoices} />,
     },
     {
       value: 'notifications',

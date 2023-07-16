@@ -79,6 +79,10 @@ const AuthContext = createContext({
     changePassword: () => Promise.resolve(),
     changeProfile: () => Promise.resolve(),
     changeSocialLinks: () => Promise.resolve(),
+    getAllBanks: () => Promise.resolve(),
+    getAllCards: () => Promise.resolve(),
+    addCard: () => Promise.resolve(),
+    getAllCategories: () => Promise.resolve(),
 });
 
 // ----------------------------------------------------------------------
@@ -302,6 +306,36 @@ function AuthProvider({children}) {
     };
 
 
+    // Billing
+    const getAllBanks = async () => {
+        const response = await axios.post('/getAllBank', {});
+        return response.data.data
+    };
+
+    const getAllCards = async () => {
+        const response = await axios.post('/getAllCards', {});
+        return response.data.data
+    };
+
+    const addCard = async (cardNumber, bankId, balance, name) => {
+        console.log(cardNumber, bankId, balance, name)
+        const response = await axios.post('/createCard', {
+            "card_number": cardNumber,
+            "bank_id": bankId,
+            "balance": balance,
+            "name": name,
+        });
+
+        return response.data.data
+    };
+
+    // income and expenses
+    const getAllCategories = async () => {
+        const response = await axios.post('/getAllCategory', {});
+        return response.data.data
+    };
+
+
     return (
         <AuthContext.Provider
             value={{
@@ -317,6 +351,10 @@ function AuthProvider({children}) {
                 changePassword,
                 changeProfile,
                 changeSocialLinks,
+                getAllBanks,
+                getAllCards,
+                addCard,
+                getAllCategories,
             }}
         >
             {children}

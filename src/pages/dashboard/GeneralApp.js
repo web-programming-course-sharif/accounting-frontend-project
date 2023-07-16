@@ -1,7 +1,10 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 // @mui
 import {useTheme} from '@mui/material/styles';
-import {Container, Grid, Stack} from '@mui/material';
+import {Button, Container, DialogTitle, Grid, Stack} from '@mui/material';
+// redux
+import {useDispatch, useSelector} from '../../redux/store';
+import {closeModal as closeIncomeModal, getIncomes, openModal} from "../../redux/slices/income";
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
@@ -19,8 +22,21 @@ import {
     AppWidget,
     AppWidgetSummary,
 } from '../../sections/@dashboard/general/app';
+import Iconify from "../../components/Iconify";
+import useResponsive from "../../hooks/useResponsive";
+import {DialogAnimate} from "../../components/animate";
+import InOutForm from "../../sections/@dashboard/app/InOutForm";
 
 // ----------------------------------------------------------------------
+
+const selectedIncomeSelector = (state) => {
+  const { incomes, selectedIncomeId } = state.income;
+  if (selectedIncomeId) {
+    return incomes.find((_event) => _event.id === selectedIncomeId);
+  }
+  return null;
+};
+
 
 export default function GeneralApp() {
     const {user} = useAuth();
@@ -28,15 +44,46 @@ export default function GeneralApp() {
     const {themeStretch} = useSettings();
     const [isRemove, setIsRemove] = useState(false);
 
+    const dispatch = useDispatch();
+    const selectedIncome = useSelector(selectedIncomeSelector);
+    const {incomes, isOpenModal} = useSelector((state) => state.income);
+
+    useEffect(() => {
+        dispatch(getIncomes());
+    }, [dispatch]);
+
+    const handleAddIncome = () => {
+        dispatch(openModal());
+    };
+
+    const handleCloseIncomeModal = () => {
+        dispatch(closeIncomeModal());
+    };
+
     return (
         <Page title="General: App">
             <Container maxWidth={themeStretch ? false : 'xl'}>
+                <Button
+                    variant="contained"
+                    startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20}/>}
+                    sx={{mr: 2}}
+                    onClick={handleAddIncome}
+                >
+                    New Income
+                </Button>
+                <Button
+                    variant="contained"
+                    startIcon={<Iconify icon={'eva:plus-fill'} width={20} height={20}/>}
+                    // onClick={handleAddEvent}
+                >
+                    New Outcome
+                </Button>
+
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={12}>
                         <AppWelcome displayName={user?.displayName} isRemove={isRemove}
                                     setTrueIsRemove={() => setIsRemove(true)}/>
                     </Grid>
-
 
                     <Grid item xs={12} md={4}>
                         <AppWidgetSummary
@@ -100,6 +147,12 @@ export default function GeneralApp() {
                         </Stack>
                     </Grid>
                 </Grid>
+
+                <DialogAnimate open={isOpenModal} onClose={handleCloseIncomeModal}>
+                    <DialogTitle>{selectedIncome ? 'Edit Income' : 'Add Income'}</DialogTitle>
+
+                    <InOutForm inOut={selectedIncome || {}} onCancel={handleCloseIncomeModal}/>
+                </DialogAnimate>
             </Container>
         </Page>
     );
